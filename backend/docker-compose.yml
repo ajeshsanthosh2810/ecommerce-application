@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ecom:
+    network_mode: "host"
+    restart: always
+    image: "api-ecommerce:latest"
+    container_name: api-ecom
+    environment:
+     - PORT=7071
+
