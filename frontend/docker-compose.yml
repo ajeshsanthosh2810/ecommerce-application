@@ -1,0 +1,9 @@
+version: '3'
+services:
+  webapp-ecom:
+    network_mode: "host"
+    restart: always
+    image: "webapp-ecom:latest"
+    container_name: webapp-ecom
+    environment:
+     - PORT=7073
