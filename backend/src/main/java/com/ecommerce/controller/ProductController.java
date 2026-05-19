@@ -1,6 +1,6 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.entity.Product;
+import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,17 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    public List<Product> getProducts() {
+    public List<ProductDTO> getProducts() {
         return service.getProducts();
+    }
+    
+    @GetMapping("/{id}")
+    public ProductDTO getProductById(@PathVariable String id) {
+        return service.getProductById(id);
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
-        return service.create(product);
+    public ProductDTO create(@RequestBody ProductDTO productDTO) {
+        return service.create(productDTO);
     }
 }

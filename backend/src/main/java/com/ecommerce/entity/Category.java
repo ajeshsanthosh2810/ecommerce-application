@@ -3,15 +3,13 @@ package com.ecommerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,13 +19,5 @@ public class Product {
 
     private String description;
 
-    private BigDecimal price;
-
-    private Integer stock;
-
     private String imageUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 }
