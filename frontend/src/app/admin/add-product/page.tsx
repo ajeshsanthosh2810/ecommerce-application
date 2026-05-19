@@ -19,7 +19,6 @@ export default function AddProductPage() {
   });
 
   useEffect(() => {
-    // Fetch categories so the user can select one from a dropdown
     const fetchCategories = async () => {
       try {
         const response = await api.get("/categories");
@@ -57,9 +56,8 @@ export default function AddProductPage() {
       };
 
       await api.post("/products", payload);
-      setMessage({ text: "Product added successfully!", type: "success" });
+      setMessage({ text: "Success: Record inserted into database.", type: "success" });
       
-      // Reset form
       setFormData(prev => ({
         ...prev,
         name: "",
@@ -70,7 +68,7 @@ export default function AddProductPage() {
       }));
     } catch (err) {
       console.error(err);
-      setMessage({ text: "Failed to add product. Please check your backend connection.", type: "error" });
+      setMessage({ text: "Error: Write operation failed.", type: "error" });
     } finally {
       setIsLoading(false);
     }
@@ -78,26 +76,30 @@ export default function AddProductPage() {
 
   return (
     <div className="container animate-fade-in" style={{ padding: "4rem 1.5rem", maxWidth: "800px" }}>
-      <h1 style={{ marginBottom: "2rem" }}>Admin: Add New Product</h1>
+      <h1 style={{ marginBottom: "2rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem" }}>
+        System Administration
+      </h1>
       
-      <div className="glass" style={{ padding: "2.5rem" }}>
+      <div className="panel" style={{ padding: "3rem" }}>
+        <h2 style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>Input New Product</h2>
+
         {message && (
           <div style={{ 
             padding: "1rem", 
             marginBottom: "2rem", 
-            borderRadius: "8px",
-            backgroundColor: message.type === "success" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
             border: `1px solid ${message.type === "success" ? "var(--success)" : "var(--danger)"}`,
-            color: message.type === "success" ? "var(--success)" : "var(--danger)"
+            color: message.type === "success" ? "var(--success)" : "var(--danger)",
+            fontFamily: "var(--font-mono)",
+            textTransform: "uppercase"
           }}>
-            {message.text}
+            &gt; {message.text}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
           
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label htmlFor="name" style={{ fontWeight: 600 }}>Product Name *</label>
+            <label htmlFor="name" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Product Name [String]</label>
             <input 
               type="text" 
               id="name" 
@@ -105,14 +107,13 @@ export default function AddProductPage() {
               required 
               value={formData.name} 
               onChange={handleChange}
-              style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white" }}
-              placeholder="e.g. Premium Wireless Headphones"
+              style={{ padding: "1rem" }}
             />
           </div>
 
-          <div style={{ display: "flex", gap: "1.5rem" }}>
+          <div style={{ display: "flex", gap: "2rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
-              <label htmlFor="price" style={{ fontWeight: 600 }}>Price ($) *</label>
+              <label htmlFor="price" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Price [Float]</label>
               <input 
                 type="number" 
                 id="price" 
@@ -122,13 +123,12 @@ export default function AddProductPage() {
                 step="0.01"
                 value={formData.price} 
                 onChange={handleChange}
-                style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white" }}
-                placeholder="0.00"
+                style={{ padding: "1rem" }}
               />
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
-              <label htmlFor="stock" style={{ fontWeight: 600 }}>Initial Stock *</label>
+              <label htmlFor="stock" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Stock [Integer]</label>
               <input 
                 type="number" 
                 id="stock" 
@@ -137,20 +137,19 @@ export default function AddProductPage() {
                 min="0"
                 value={formData.stock} 
                 onChange={handleChange}
-                style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white" }}
-                placeholder="100"
+                style={{ padding: "1rem" }}
               />
             </div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label htmlFor="categoryId" style={{ fontWeight: 600 }}>Category</label>
+            <label htmlFor="categoryId" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Category [UUID]</label>
             <select 
               id="categoryId" 
               name="categoryId" 
               value={formData.categoryId} 
               onChange={handleChange}
-              style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white" }}
+              style={{ padding: "1rem", appearance: "none" }}
             >
               {categories.length === 0 && <option value="">Loading categories...</option>}
               {categories.map(cat => (
@@ -160,28 +159,26 @@ export default function AddProductPage() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label htmlFor="imageUrl" style={{ fontWeight: 600 }}>Image URL</label>
+            <label htmlFor="imageUrl" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Image [URL]</label>
             <input 
               type="url" 
               id="imageUrl" 
               name="imageUrl" 
               value={formData.imageUrl} 
               onChange={handleChange}
-              style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white" }}
-              placeholder="https://images.unsplash.com/photo-..."
+              style={{ padding: "1rem" }}
             />
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label htmlFor="description" style={{ fontWeight: 600 }}>Description</label>
+            <label htmlFor="description" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Description [Text]</label>
             <textarea 
               id="description" 
               name="description" 
               rows={4}
               value={formData.description} 
               onChange={handleChange}
-              style={{ padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(0,0,0,0.2)", color: "white", resize: "vertical" }}
-              placeholder="Describe the product..."
+              style={{ padding: "1rem", resize: "vertical" }}
             />
           </div>
 
@@ -189,9 +186,9 @@ export default function AddProductPage() {
             type="submit" 
             className="btn btn-primary" 
             disabled={isLoading}
-            style={{ marginTop: "1rem", padding: "1rem", fontSize: "1.1rem" }}
+            style={{ marginTop: "1rem", padding: "1.25rem", fontSize: "1.1rem" }}
           >
-            {isLoading ? "Adding Product..." : "Add Product to Store"}
+            {isLoading ? "Executing Insert..." : "Execute Insert"}
           </button>
         </form>
       </div>

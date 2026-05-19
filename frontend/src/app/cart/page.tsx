@@ -29,7 +29,7 @@ export default function CartPage() {
       clearCart();
     } catch (err) {
       console.error("Checkout failed", err);
-      alert("Checkout failed. Please try again.");
+      alert("Checkout failed. Please verify backend connection.");
     } finally {
       setIsCheckingOut(false);
     }
@@ -37,12 +37,12 @@ export default function CartPage() {
 
   if (orderSuccess) {
     return (
-      <div className="container animate-fade-in" style={{ padding: "6rem 1.5rem", textAlign: "center" }}>
-        <div className="glass" style={{ padding: "4rem 2rem", maxWidth: "600px", margin: "0 auto" }}>
-          <div style={{ fontSize: "4rem", color: "var(--success)", marginBottom: "1rem" }}>✓</div>
-          <h1 style={{ marginBottom: "1rem" }}>Order Confirmed!</h1>
-          <p style={{ marginBottom: "2rem" }}>Thank you for your purchase. We will process it shortly.</p>
-          <Link href="/products" className="btn btn-primary">Continue Shopping</Link>
+      <div className="container animate-fade-in" style={{ padding: "8rem 1.5rem", display: "flex", justifyContent: "center" }}>
+        <div className="panel" style={{ padding: "4rem", maxWidth: "600px", width: "100%", border: "1px solid var(--success)" }}>
+          <div style={{ fontSize: "1.5rem", fontFamily: "var(--font-mono)", color: "var(--success)", marginBottom: "2rem", textTransform: "uppercase" }}>&gt; Transaction complete</div>
+          <h1 style={{ marginBottom: "2rem" }}>Order Confirmed</h1>
+          <p style={{ marginBottom: "3rem", color: "var(--foreground)" }}>Data successfully written to database. Awaiting fulfillment.</p>
+          <Link href="/products" className="btn btn-primary" style={{ width: "100%" }}>Return to Index</Link>
         </div>
       </div>
     );
@@ -50,62 +50,62 @@ export default function CartPage() {
 
   return (
     <div className="container animate-fade-in" style={{ padding: "4rem 1.5rem" }}>
-      <h1 style={{ marginBottom: "3rem" }}>Your Cart</h1>
+      <h1 style={{ marginBottom: "3rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem" }}>Current Cart State</h1>
       
       {items.length === 0 ? (
-        <div className="glass" style={{ padding: "4rem", textAlign: "center" }}>
-          <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>Your cart is empty.</p>
-          <Link href="/products" className="btn btn-primary">Browse Products</Link>
+        <div className="panel" style={{ padding: "4rem", textAlign: "center" }}>
+          <p style={{ fontSize: "1.2rem", marginBottom: "2rem", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>&gt; Buffer is empty</p>
+          <Link href="/products" className="btn btn-primary">Initialize Selection</Link>
         </div>
       ) : (
         <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", alignItems: "flex-start" }}>
           <div style={{ flex: "1 1 600px", display: "flex", flexDirection: "column", gap: "1rem" }}>
             {items.map(item => (
-              <div key={item.product.id} className="glass" style={{ display: "flex", padding: "1.5rem", gap: "1.5rem", alignItems: "center" }}>
-                <img src={item.product.imageUrl} alt={item.product.name} style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "8px" }} />
+              <div key={item.product.id} className="panel" style={{ display: "flex", padding: "1.5rem", gap: "1.5rem", alignItems: "center" }}>
+                <img src={item.product.imageUrl} alt={item.product.name} style={{ width: "120px", height: "120px", objectFit: "cover", filter: "grayscale(100%)" }} />
                 <div style={{ flex: 1 }}>
                   <Link href={`/products/${item.product.id}`}>
                     <h3 style={{ marginBottom: "0.5rem" }}>{item.product.name}</h3>
                   </Link>
-                  <div style={{ color: "var(--accent)", fontWeight: "bold" }}>${item.product.price.toFixed(2)}</div>
+                  <div style={{ fontFamily: "var(--font-mono)" }}>${item.product.price.toFixed(2)}</div>
                 </div>
                 
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="btn" style={{ padding: "0.5rem", background: "var(--card-bg)", border: "1px solid var(--border-color)" }}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="btn" style={{ padding: "0.5rem", background: "var(--card-bg)", border: "1px solid var(--border-color)" }}>+</button>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="btn" style={{ padding: "0.5rem 1rem" }}>-</button>
+                  <span style={{ fontFamily: "var(--font-mono)", margin: "0 1rem" }}>{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="btn" style={{ padding: "0.5rem 1rem" }}>+</button>
                 </div>
                 
-                <button onClick={() => removeFromCart(item.product.id)} style={{ background: "none", border: "none", color: "var(--danger)", cursor: "pointer", padding: "0.5rem" }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                <button onClick={() => removeFromCart(item.product.id)} className="btn" style={{ border: "1px solid var(--danger)", color: "var(--danger)" }}>
+                  DEL
                 </button>
               </div>
             ))}
           </div>
           
-          <div className="glass" style={{ flex: "1 1 350px", padding: "2rem", position: "sticky", top: "100px" }}>
-            <h2 style={{ marginBottom: "2rem" }}>Order Summary</h2>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", color: "var(--border-color)" }}>
+          <div className="panel" style={{ flex: "1 1 350px", padding: "2rem", position: "sticky", top: "100px" }}>
+            <h2 style={{ marginBottom: "2rem" }}>Execution Summary</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", fontFamily: "var(--font-mono)", color: "var(--border-hover)" }}>
               <span>Subtotal</span>
               <span>${total.toFixed(2)}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", color: "var(--border-color)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", fontFamily: "var(--font-mono)", color: "var(--border-hover)" }}>
               <span>Shipping</span>
-              <span>Free</span>
+              <span>$0.00</span>
             </div>
-            <hr style={{ borderColor: "var(--border-color)", margin: "1.5rem 0" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2rem", fontSize: "1.25rem", fontWeight: "bold" }}>
+            <hr style={{ borderColor: "var(--border-color)", margin: "1.5rem 0", borderStyle: "solid" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "3rem", fontSize: "1.5rem", fontFamily: "var(--font-mono)", fontWeight: "bold" }}>
               <span>Total</span>
-              <span style={{ color: "var(--accent)" }}>${total.toFixed(2)}</span>
+              <span>${total.toFixed(2)}</span>
             </div>
             
             <button 
               className="btn btn-primary" 
-              style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }}
+              style={{ width: "100%", padding: "1.25rem", fontSize: "1.1rem" }}
               onClick={handleCheckout}
               disabled={isCheckingOut}
             >
-              {isCheckingOut ? "Processing..." : "Quick Checkout"}
+              {isCheckingOut ? "Executing..." : "Commit Transaction"}
             </button>
           </div>
         </div>

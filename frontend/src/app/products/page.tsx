@@ -35,28 +35,29 @@ export default function ProductsPage() {
 
   return (
     <div className="container animate-fade-in" style={{ padding: "4rem 1.5rem" }}>
-      <h1 style={{ marginBottom: "2rem" }}>All Products</h1>
+      <div style={{ borderBottom: "1px solid var(--border-color)", paddingBottom: "2rem", marginBottom: "3rem" }}>
+        <h1 style={{ margin: 0 }}>Product Index</h1>
+        <p style={{ marginTop: "0.5rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Query results from the database</p>
+      </div>
       
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "3rem", overflowX: "auto", paddingBottom: "1rem" }}>
+      <div style={{ display: "flex", gap: "1rem", marginBottom: "4rem", overflowX: "auto", paddingBottom: "1rem" }}>
         <button 
-          className={`btn ${selectedCategory === null ? 'btn-primary' : ''}`}
+          className="btn"
           style={{ 
-            background: selectedCategory === null ? 'var(--primary)' : 'var(--card-bg)',
-            border: "1px solid var(--border-color)",
-            whiteSpace: "nowrap"
+            background: selectedCategory === null ? 'var(--primary)' : 'transparent',
+            color: selectedCategory === null ? 'var(--background)' : 'var(--primary)',
           }}
           onClick={() => setSelectedCategory(null)}
         >
-          All
+          All Classes
         </button>
         {categories.map(category => (
           <button
             key={category.id}
-            className={`btn ${selectedCategory === category.id ? 'btn-primary' : ''}`}
+            className="btn"
             style={{ 
-              background: selectedCategory === category.id ? 'var(--primary)' : 'var(--card-bg)',
-              border: "1px solid var(--border-color)",
-              whiteSpace: "nowrap"
+              background: selectedCategory === category.id ? 'var(--primary)' : 'transparent',
+              color: selectedCategory === category.id ? 'var(--background)' : 'var(--primary)',
             }}
             onClick={() => setSelectedCategory(category.id)}
           >
@@ -66,19 +67,19 @@ export default function ProductsPage() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: "center", padding: "4rem" }}>Loading...</div>
+        <div style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>&gt; Executing query...</div>
       ) : (
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", 
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", 
           gap: "2rem" 
         }}>
           {filteredProducts.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
           {filteredProducts.length === 0 && (
-            <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "4rem", color: "var(--border-color)" }}>
-              No products found in this category.
+            <div className="panel" style={{ gridColumn: "1 / -1", padding: "4rem", textAlign: "center", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+              &gt; 0 records found for this parameter.
             </div>
           )}
         </div>

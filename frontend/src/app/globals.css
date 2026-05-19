@@ -1,14 +1,17 @@
 :root {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --secondary: #1e293b;
-  --accent: #8b5cf6;
-  --card-bg: rgba(30, 41, 59, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --success: #10b981;
-  --danger: #ef4444;
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-hover: #cccccc;
+  --secondary: #111111;
+  --accent: #ffffff;
+  --card-bg: #000000;
+  --border-color: #333333;
+  --border-hover: #ffffff;
+  --success: #00ff00;
+  --danger: #ff0000;
+  
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 }
 
 * {
@@ -20,10 +23,12 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -31,34 +36,44 @@ a {
   text-decoration: none;
 }
 
-/* Glassmorphism utility */
-.glass {
+/* Panel utility (replacing glass) */
+.glass, .panel {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 0; /* Brutalist */
+  transition: border-color 0.2s ease;
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem;
-  font-weight: 700;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 h1 {
-  font-size: 2.5rem;
-  background: linear-gradient(to right, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 3rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
 }
 
 h2 {
   font-size: 2rem;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
 }
 
 p {
   line-height: 1.6;
-  color: #cbd5e1;
+  color: #a0a0a0;
+  font-weight: 400;
 }
 
 /* Buttons */
@@ -67,43 +82,71 @@ p {
   align-items: center;
   justify-content: center;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 0; /* Sharp corners */
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+
+.btn:hover {
+  background-color: var(--primary);
+  color: var(--background);
 }
 
 .btn-primary {
   background-color: var(--primary);
-  color: white;
+  color: var(--background);
+  border: 1px solid var(--primary);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background-color: var(--background);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .btn-accent {
-  background-color: var(--accent);
-  color: white;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .btn-accent:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+/* Inputs and Forms */
+input, textarea, select {
+  border-radius: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.875rem !important;
+  border: 1px solid var(--border-color) !important;
+  background: #0a0a0a !important;
+  color: white !important;
+  transition: border-color 0.2s !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s ease forwards;
+  animation: fadeIn 0.6s ease forwards;
 }
 
 .container {

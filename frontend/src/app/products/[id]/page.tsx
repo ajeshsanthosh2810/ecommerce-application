@@ -24,41 +24,42 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     fetchProduct();
   }, [params.id]);
 
-  if (loading) return <div className="container" style={{ padding: "4rem", textAlign: "center" }}>Loading...</div>;
-  if (!product) return <div className="container" style={{ padding: "4rem", textAlign: "center" }}>Product not found</div>;
+  if (loading) return <div className="container" style={{ padding: "4rem", fontFamily: "var(--font-mono)" }}>&gt; Fetching detailed telemetry...</div>;
+  if (!product) return <div className="container" style={{ padding: "4rem", fontFamily: "var(--font-mono)", color: "var(--danger)" }}>&gt; ERROR 404: Product not found in database.</div>;
 
   return (
     <div className="container animate-fade-in" style={{ padding: "4rem 1.5rem" }}>
-      <div className="glass" style={{ display: "flex", flexWrap: "wrap", overflow: "hidden" }}>
-        <div style={{ flex: "1 1 500px", minWidth: "300px" }}>
+      <div className="panel" style={{ display: "flex", flexWrap: "wrap", padding: 0 }}>
+        <div style={{ flex: "1 1 500px", minWidth: "300px", borderRight: "1px solid var(--border-color)" }}>
           <img 
             src={product.imageUrl} 
             alt={product.name} 
-            style={{ width: "100%", height: "100%", minHeight: "400px", objectFit: "cover" }} 
+            style={{ width: "100%", height: "100%", minHeight: "500px", objectFit: "cover", display: "block" }} 
           />
         </div>
         
-        <div style={{ flex: "1 1 400px", padding: "3rem", display: "flex", flexDirection: "column" }}>
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>{product.name}</h1>
-          <div style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--accent)", marginBottom: "2rem" }}>
+        <div style={{ flex: "1 1 400px", padding: "4rem", display: "flex", flexDirection: "column" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.875rem", color: "var(--border-hover)", marginBottom: "1rem" }}>ID: {product.id}</div>
+          <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>{product.name}</h1>
+          <div style={{ fontSize: "2.5rem", fontFamily: "var(--font-mono)", marginBottom: "3rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "2rem" }}>
             ${product.price.toFixed(2)}
           </div>
           
-          <p style={{ fontSize: "1.1rem", marginBottom: "2rem", flex: 1 }}>
+          <p style={{ fontSize: "1.1rem", marginBottom: "3rem", flex: 1, color: "var(--foreground)" }}>
             {product.description}
           </p>
           
-          <div style={{ marginBottom: "2rem", color: product.stock > 0 ? "var(--success)" : "var(--danger)" }}>
-            {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
+          <div style={{ marginBottom: "2rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", color: product.stock > 0 ? "var(--success)" : "var(--danger)" }}>
+            &gt; STATUS: {product.stock > 0 ? `Available (${product.stock} units)` : "Depleted"}
           </div>
           
           <button 
             className="btn btn-primary" 
-            style={{ width: "100%", padding: "1rem", fontSize: "1.1rem" }}
+            style={{ width: "100%", padding: "1.25rem", fontSize: "1.1rem" }}
             onClick={() => addToCart(product)}
             disabled={product.stock === 0}
           >
-            {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+            {product.stock > 0 ? "Execute Add to Cart" : "Action Unavailable"}
           </button>
         </div>
       </div>

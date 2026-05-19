@@ -18,7 +18,7 @@ export default function HomePage() {
         setProducts(response.data);
       } catch (err) {
         console.error(err);
-        setError("Failed to load products. Is the backend running?");
+        setError("System Offline. Verify backend connection.");
       } finally {
         setLoading(false);
       }
@@ -31,48 +31,50 @@ export default function HomePage() {
     <div className="animate-fade-in">
       {/* Hero Section */}
       <section style={{ 
-        padding: "6rem 2rem", 
-        textAlign: "center",
-        background: "radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%)"
+        padding: "8rem 2rem", 
+        borderBottom: "1px solid var(--border-color)",
+        background: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMzMzMiLz48L3N2Zz4=') repeat",
       }}>
         <div className="container">
-          <h1 style={{ fontSize: "4rem", marginBottom: "1.5rem" }}>
-            Elevate Your Lifestyle
-          </h1>
-          <p style={{ fontSize: "1.25rem", maxWidth: "800px", margin: "0 auto 2.5rem auto" }}>
-            Discover our curated collection of premium products designed to bring elegance and functionality into your everyday life.
-          </p>
-          <Link href="/products" className="btn btn-primary" style={{ fontSize: "1.125rem", padding: "1rem 2rem" }}>
-            Shop Collection
-          </Link>
+          <div style={{ maxWidth: "800px" }}>
+            <h1 style={{ fontSize: "5rem", marginBottom: "2rem" }}>
+              The Sovereign<br/>Commerce Platform
+            </h1>
+            <p style={{ fontSize: "1.25rem", margin: "0 0 3rem 0", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--foreground)" }}>
+              High-performance goods. Minimalist execution.
+            </p>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <Link href="/products" className="btn btn-primary" style={{ padding: "1.25rem 2.5rem", fontSize: "1rem" }}>
+                Initialize Shopping
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="container" style={{ padding: "4rem 1.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem" }}>
+      <section className="container" style={{ padding: "6rem 1.5rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem" }}>
           <div>
-            <h2 style={{ fontSize: "2.5rem" }}>Trending Now</h2>
-            <p>The most wanted items this week</p>
+            <h2 style={{ fontSize: "3rem", margin: 0 }}>Terminal Output</h2>
           </div>
-          <Link href="/products" style={{ color: "var(--primary)", fontWeight: "bold" }}>
-            View All &rarr;
+          <Link href="/products" style={{ fontFamily: "var(--font-mono)", textTransform: "uppercase", fontSize: "0.875rem", letterSpacing: "0.05em", borderBottom: "1px solid var(--primary)", paddingBottom: "0.25rem" }}>
+            Query All Records
           </Link>
         </div>
 
         {loading ? (
-          <div style={{ display: "flex", justifyContent: "center", padding: "4rem 0" }}>
-            <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "3px solid var(--card-bg)", borderTopColor: "var(--primary)", animation: "spin 1s linear infinite" }} />
-            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          <div style={{ padding: "4rem 0", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            &gt; Loading database records...
           </div>
         ) : error ? (
-          <div className="glass" style={{ padding: "2rem", textAlign: "center", color: "var(--danger)" }}>
-            {error}
+          <div className="panel" style={{ padding: "2rem", color: "var(--danger)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            &gt; ERROR: {error}
           </div>
         ) : (
           <div style={{ 
             display: "grid", 
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", 
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", 
             gap: "2rem" 
           }}>
             {products.slice(0, 8).map((product) => (

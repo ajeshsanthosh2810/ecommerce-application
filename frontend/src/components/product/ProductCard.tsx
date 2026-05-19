@@ -11,19 +11,17 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div 
-      className="glass"
+      className="panel"
       style={{
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
-        transition: "transform 0.3s ease, box-shadow 0.3s ease",
-        transform: isHovered ? "translateY(-5px)" : "none",
-        boxShadow: isHovered ? "0 10px 25px rgba(0,0,0,0.5)" : "none",
+        transition: "border-color 0.2s ease",
+        borderColor: isHovered ? "var(--border-hover)" : "var(--border-color)",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={`/products/${product.id}`} style={{ overflow: "hidden" }}>
+      <Link href={`/products/${product.id}`} style={{ display: "block", borderBottom: "1px solid", borderColor: isHovered ? "var(--border-hover)" : "var(--border-color)", transition: "border-color 0.2s ease" }}>
         <img
           src={product.imageUrl || "https://via.placeholder.com/400x300"}
           alt={product.name}
@@ -31,36 +29,35 @@ export default function ProductCard({ product }: { product: Product }) {
             width: "100%",
             height: "250px",
             objectFit: "cover",
-            transition: "transform 0.5s ease",
-            transform: isHovered ? "scale(1.05)" : "scale(1)",
+            filter: isHovered ? "none" : "grayscale(50%)",
+            transition: "filter 0.3s ease",
+            display: "block"
           }}
         />
       </Link>
       
       <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
         <Link href={`/products/${product.id}`}>
-          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", transition: "color 0.2s" }}
-              onMouseEnter={(e) => e.currentTarget.style.color = "var(--primary)"}
-              onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
+          <h3 style={{ marginBottom: "0.5rem", color: isHovered ? "var(--primary)" : "var(--foreground)", transition: "color 0.2s" }}>
             {product.name}
           </h3>
         </Link>
         
-        <p style={{ fontSize: "0.875rem", color: "var(--border-color)", marginBottom: "1rem", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+        <p style={{ fontSize: "0.875rem", marginBottom: "1.5rem", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {product.description}
         </p>
         
         <div style={{ marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--accent)" }}>
+          <span style={{ fontSize: "1.25rem", fontFamily: "var(--font-mono)", fontWeight: "bold" }}>
             ${product.price.toFixed(2)}
           </span>
           
           <button 
             className="btn btn-primary"
-            style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}
+            style={{ padding: "0.5rem 1rem" }}
             onClick={() => addToCart(product)}
           >
-            Add to Cart
+            Add
           </button>
         </div>
       </div>
