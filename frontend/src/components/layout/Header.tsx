@@ -20,7 +20,7 @@ export default function Header() {
         <nav style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
           <Link href="/products" style={{ fontWeight: 500, transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--primary)"} onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
             Products
-          </nav>
+          </Link>
           
           <Link href="/cart" style={{ position: "relative", display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
